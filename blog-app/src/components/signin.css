@@ -1,0 +1,105 @@
+/* Global Styles */
+.containe {
+    font-family: 'Arial', sans-serif;
+    background: url('https://png.pngtree.com/thumb_back/fw800/background/20240301/pngtree-desktop-wallpaper-hd-image_15634025.jpg');
+    background-size: cover; /* Đặt kích thước ảnh vừa khít với màn hình */
+    background-position: center; /* Canh giữa ảnh */
+    background-repeat: no-repeat; /* Không lặp lại ảnh */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-attachment: fixed;
+    color: #fff;
+}
+
+/* Header */
+.signup-form h4 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    color: #4e73df;
+    margin-bottom: 1rem;
+}
+
+/* Labels */
+.signup-form label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+/* Inputs */
+.signup-form input.form-control {
+    height: 45px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+}
+
+.signup-form input.form-control:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 4px rgba(78, 115, 223, 0.5);
+    outline: none;
+}
+
+/* Error Message */
+.signup-form .text-danger {
+    font-size: 0.875rem;
+    margin-top: 5px;
+    display: inline-block;
+    color: #e74a3b;
+}
+
+/* Buttons */
+.signup-form button {
+    background-color: #4e73df;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.signup-form button:hover {
+    background-color: #3752a0;
+    transform: translateY(-2px);
+}
+
+/* Redirect Link */
+.signup-form a {
+    color: #4e73df;
+    text-decoration: none;
+}
+
+.signup-form a:hover {
+    text-decoration: underline;
+}
+
+/* Form Rows */
+.signup-form .row {
+    margin-bottom: 1rem;
+}
+
+/* Small Screens */
+@media (max-width: 576px) {
+    .signup-form h4 {
+        font-size: 1.5rem;
+    }
+
+    .signup-form input.form-control {
+        font-size: 0.9rem;
+    }
+
+    .signup-form button {
+        font-size: 0.9rem;
+    }
+}

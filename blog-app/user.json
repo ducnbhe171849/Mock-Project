@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": "63c2",
+      "fname": "asdg",
+      "lname": "aeg",
+      "email": "adg@gmail",
+      "password": "123",
+      "confirmPassword": "123"
+    },
+    {
+      "id": "1b7e",
+      "fname": "asdf",
+      "lname": "aeg",
+      "email": "harha@gmail.com",
+      "password": "123",
+      "confirmPassword": "123"
+    }
+  ]
+}
