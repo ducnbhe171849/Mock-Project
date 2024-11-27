@@ -1,55 +1,73 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
     MDBNavbar,
-    MDBContainer,
-    MDBIcon,
     MDBNavbarNav,
     MDBNavbarItem,
-    MDBNavbarLink,
     MDBNavbarToggler,
-    MDBNavbarBrand,
     MDBCollapse
-} from 'mdb-react-ui-kit';
+} from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
+import { useAuth } from './AuthContext';
 
+const Header = () => {
+    const [show, setShow] = useState(false);
+    const { user, logout } = useAuth(); // Lấy thông tin người dùng từ AuthContext
 
-function Header() {
     return (
         <div>
-            <MDBNavbar expand='lg' light style={{ backgroundColor: '#e3f2fd' }}>
-                <MDBContainer fluid>
-                    <MDBNavbarBrand href='#'>Navbar</MDBNavbarBrand>
-                    <MDBNavbarToggler
-                        type='button'
-                        data-target='#navbarColor02'
-                        aria-controls='navbarColor02'
-                        aria-expanded='false'
-                        aria-label='Toggle navigation'
-                        onClick={() => setOpenNavColorThird(!openNavColorThird)}
-                    >
-                        <MDBIcon icon='bars' fas />
-                    </MDBNavbarToggler>
-                    <MDBCollapse open={openNavColorThird} navbar>
-                        <MDBNavbarNav className='me-auto mb-2 mb-lg-0'>
-                            <MDBNavbarItem className='active'>
-                                <MDBNavbarLink aria-current='page' href='#'>
-                                    Home
-                                </MDBNavbarLink>
-                            </MDBNavbarItem>
+            <MDBNavbar expand='lg' light style={{ backgroundColor: "#541b1b" }}>
+                <MDBNavbarToggler
+                    type="button"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                    style={{ color: "#fff" }}
+                    onClick={() => setShow(!show)}
+                >
+                    <span>Menu</span>
+                </MDBNavbarToggler>
+                <MDBCollapse show={show} navbar>
+                    <MDBNavbarNav className="me-auto">
+                        <MDBNavbarItem>
+                            <Link to="/" className="nav-link" style={{ color: "#fff" }}>Home</Link>
+                        </MDBNavbarItem>
+                        {user && ( // Hiển thị "Add Blog" nếu người dùng đã đăng nhập
                             <MDBNavbarItem>
-                                <MDBNavbarLink href='#'>Features</MDBNavbarLink>
+                                <Link to="/addBlog" className="nav-link" style={{ color: "#fff" }}>
+                                    Add Blog
+                                </Link>
                             </MDBNavbarItem>
-                            <MDBNavbarItem>
-                                <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>
-                            </MDBNavbarItem>
-                            <MDBNavbarItem>
-                                <MDBNavbarLink href='#'>About</MDBNavbarLink>
-                            </MDBNavbarItem>
-                        </MDBNavbarNav>
-                    </MDBCollapse>
-                </MDBContainer>
+                        )}
+                        <MDBNavbarItem>
+                            <Link to="/about" className="nav-link" style={{ color: "#fff" }}>
+                                About
+                            </Link>
+                        </MDBNavbarItem>
+                        {user ? (
+                            <>
+                                <MDBNavbarItem style={{ margin: "auto" }}>
+                                    <span style={{ color: "#fff" }}>Hello, {user.firstname} {user.lastname}</span>
+                                </MDBNavbarItem>
+                                <MDBNavbarItem>
+                                    <button onClick={logout} style={{ color: "#fff", background: "none", border: "none" }}>
+                                        Logout
+                                    </button>
+                                </MDBNavbarItem>
+                            </>
+                        ) : (
+                            <>
+                                <MDBNavbarItem>
+                                    <Link to="/login" className="nav-link" style={{ color: "#fff" }}>Login</Link>
+                                </MDBNavbarItem>
+                                <MDBNavbarItem>
+                                    <Link to="/signin" className="nav-link" style={{ color: "#fff" }}>Sign Up</Link>
+                                </MDBNavbarItem>
+                            </>
+                        )}
+                    </MDBNavbarNav>
+                </MDBCollapse>
             </MDBNavbar>
         </div>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;
