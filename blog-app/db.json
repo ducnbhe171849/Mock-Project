@@ -1,0 +1,60 @@
+{
+  "users": [
+    {
+      "id": "63c2",
+      "fname": "asdg",
+      "lname": "aeg",
+      "email": "adg@gmail",
+      "password": "123",
+      "confirmPassword": "123"
+    },
+    {
+      "id": "1b7e",
+      "fname": "asdf",
+      "lname": "aeg",
+      "email": "harha@gmail.com",
+      "password": "123",
+      "confirmPassword": "123"
+    },
+    {
+      "fname": "ga",
+      "lname": "ádg",
+      "email": "nguyenduc@gmail.com",
+      "password": "123123",
+      "id": "d798"
+    },
+    {
+      "fname": "Đức Thước",
+      "lname": "Đầng",
+      "email": "quanzangzac01@gmail.com",
+      "password": "123123",
+      "id": "4eef"
+    }
+  ],
+  "blogs": [
+    {
+      "id": "040f",
+      "title": "12345",
+      "description": "123456",
+      "category": "Tech",
+      "imageUrl": "http://res.cloudinary.com/dzbinvixu/image/upload/v1732600405/1108_1798319e79d7bc89e5c6_dr2sao.jpg",
+      "date": "27/11/2024"
+    },
+    {
+      "id": "c9af",
+      "title": "123123123",
+      "description": "123123123",
+      "category": "Travel",
+      "imageUrl": "http://res.cloudinary.com/dzbinvixu/image/upload/v1732727006/2_pzknbz.webp",
+      "date": "28/11/2024"
+    },
+    {
+      "id": "ae90",
+      "title": "pc",
+      "description": "123123123",
+      "category": "Tech",
+      "imageUrl": "http://res.cloudinary.com/dzbinvixu/image/upload/v1732727027/1108_1798319e79d7bc89e5c6_vjwjes.jpg",
+      "date": "28/11/2024"
+    }
+  ]
+}

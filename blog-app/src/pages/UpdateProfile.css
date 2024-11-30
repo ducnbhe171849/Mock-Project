@@ -1,0 +1,106 @@
+/* Nền tổng thể với hình ảnh */
+.back {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/public/web-tai-hinh-dep-didongmy.jpg'); /* Thay URL với đường dẫn ảnh của bạn */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Lớp phủ mờ */
+.back::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Hiệu ứng mờ tối */
+    z-index: 0;
+}
+
+/* Container chính */
+.update-profile-container {
+    background: rgba(255, 255, 255, 0.95); /* Hộp trong suốt nhẹ */
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    width: 400px;
+    text-align: center;
+    z-index: 1;
+    position: relative;
+}
+
+/* Tiêu đề */
+.update-profile-container h1 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* Thông báo */
+.update-profile-container p {
+    font-size: 14px;
+    color: #d9534f; /* Màu đỏ nhấn */
+    margin-bottom: 20px;
+}
+
+/* Các nhóm nhập liệu */
+.update-profile-container div {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Nhãn */
+.update-profile-container label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+/* Trường nhập liệu */
+.update-profile-container input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+/* Trường nhập liệu khi có focus */
+.update-profile-container input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Nút gửi */
+.update-profile-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Hiệu ứng hover cho nút */
+.update-profile-container button:hover {
+    background-color: #218838;
+    box-shadow: 0 0 10px rgba(33, 136, 56, 0.8);
+}

@@ -1,106 +1,80 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "./AuthContext";
 import './login.css'
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  })
-  const [errors, setErrors] = useState({})
-  const [valid, setValid] = useState(true)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const { login } = useAuth(); // Sử dụng AuthContext
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let isvalid = true;
-    let validationErrors = {};
-    if (Object.keys(validationErrors).length === 0) {
-      axios.get('http://localhost:5000/users')
-        .then(result => {
-          result.data.map(user => {
-            if (user.email === formData.email) {
-              if (user.password === formData.password) {
-                alert('Dang nhap thanh cong')
-                navigate('/home')
-              } else {
-                isvalid = false
-                validationErrors.password = "Password is incorrect"
-              }
-            } else if (formData.email !== "") {
-              isvalid = false
-              validationErrors.email = "Email not found"
-            }
-          })
-          setErrors(validationErrors)
-          setValid(isvalid)
-        })
-        .catch(err => console.log(err))
+    setErrorMessage("");
+    setLoading(true);
+
+    try {
+      const response = await axios.get("http://localhost:5000/users");
+      const user = response.data.find((u) => u.email === email);
+
+      if (user) {
+        if (user.password === password) {
+          login({ firstname: user.fname, lastname: user.lname, id:user.id }); // Lưu thông tin vào AuthContext
+          alert("Đăng nhập thành công!");
+          navigate("/"); // Chuyển hướng về trang Home
+        } else {
+          setErrorMessage("Mật khẩu không chính xác");
+        }
+      } else {
+        setErrorMessage("Email không tồn tại");
+      }
+    } catch (error) {
+      console.error("Đã xảy ra lỗi:", error);
+      setErrorMessage("Có lỗi xảy ra, vui lòng thử lại sau.");
+    } finally {
+      setLoading(false);
     }
-
-
-  }
+  };
 
   return (
-    <div className='login-background'>
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-md-6 offset-md-3">
-            <div className="mb-3">
-              <h3>Login Form</h3>
-              {
-                valid ? <></> :
-                  <span className='text-danger'>
-                    {errors.email};
-                    {errors.password}
-                  </span>
-              }
-            </div>
-            <form className="shadow p-4" onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="username">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  name="username"
-                  id="username"
-                  placeholder="Email"
-                  onChange={(event) => setFormData({ ...formData, email: event.target.value })}
-                  required
-                />
-              </div>
+    <div className="login-background">
+      <div style={{ width: "300px" }}>
+        <h3>Đăng nhập</h3>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Nhập email của bạn"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-              <div className="mb-3">
-                <label htmlFor="Password">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  id="Password"
-                  placeholder="Password"
-                  onChange={(event) => setFormData({ ...formData, password: event.target.value })}
-                  required
-                />
-              </div>
+          <label htmlFor="password">Mật khẩu</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Nhập mật khẩu của bạn"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-              <a href="#" className="float-end text-decoration-none">
-                Reset Password
-              </a>
+          {errorMessage && <p style={{ color: "red", fontSize: "14px" }}>{errorMessage}</p>}
 
-              <div className="mb-3">
-                <button type="submit" className="btn btn-primary">
-                  Login
-                </button>
-              </div>
-
-              <hr />
-
-              <p className="text-center mb-0">
-                If you have not account <Link to="/signin"><button>Registration Now</button></Link>
-              </p>
-            </form>
-          </div>
-        </div>
+          <button type="submit" disabled={loading}>
+            {loading ? "Đang xử lý..." : "Đăng nhập"}
+          </button>
+        </form>
+        <hr />
+        <p style={{ textAlign: "center", marginTop: "10px" }}>
+          Chưa có tài khoản? <a href="/signin">Đăng ký</a>
+        </p>
       </div>
     </div>
   );
