@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import './login.css'
@@ -23,7 +23,7 @@ export default function Login() {
 
       if (user) {
         if (user.password === password) {
-          login({ firstname: user.fname, lastname: user.lname }); // Lưu thông tin vào AuthContext
+          login({ firstname: user.fname, lastname: user.lname, id: user.id }); // Lưu thông tin vào AuthContext
           alert("Đăng nhập thành công!");
           navigate("/"); // Chuyển hướng về trang Home
         } else {
@@ -42,10 +42,12 @@ export default function Login() {
 
   return (
     <div className="login-background">
-      <div style={{ width: "300px" }}>
+      <div className="login-container">
         <h3>Đăng nhập</h3>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Email</label>
+        <form onSubmit={handleSubmit} >
+          <div style={{ textAlign: 'left' }}>
+            <label htmlFor="email" >Email</label>
+          </div>
           <input
             type="email"
             id="email"
@@ -54,8 +56,9 @@ export default function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-
-          <label htmlFor="password">Mật khẩu</label>
+          <div style={{ textAlign: 'left' }}>
+            <label htmlFor="password">Mật khẩu</label>
+          </div>
           <input
             type="password"
             id="password"
@@ -67,14 +70,17 @@ export default function Login() {
 
           {errorMessage && <p style={{ color: "red", fontSize: "14px" }}>{errorMessage}</p>}
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Đang xử lý..." : "Đăng nhập"}
+          <button type="submit" disabled={loading} style={{ marginTop: "20px" }}>
+            {loading ? "Đang xử lý..." : "Đăng Nhập"}
           </button>
         </form>
         <hr />
-        <p style={{ textAlign: "center", marginTop: "10px" }}>
-          Chưa có tài khoản? <a href="/signin">Đăng ký</a>
-        </p>
+        <p style={{ color: "yellow" }}>Nếu bạn chưa có tài khoản</p>
+        <Link to="/signin" style={{ textDecoration: "none", color: "blue" }}>
+          <button style={{ width: "7.5rem", fontSize: "16.5px" }}>
+            Đăng Kí
+          </button>
+        </Link>
       </div>
     </div>
   );

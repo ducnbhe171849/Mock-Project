@@ -9,11 +9,12 @@ import Pagination from "../components/Pagination";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useAuth } from "../components/AuthContext"; // Lấy thông tin từ AuthContext
 
-const Home = () => {
+const MyBlog = () => {
     const { category } = useParams(); // Get category from URL
     const navigate = useNavigate(); // To navigate to different category
-
+    const { user } = useAuth();
     const [data, setData] = useState([]);
     const [latestBlog, setLatestBlog] = useState([]);
     const [searchValue, setSearchValue] = useState("");
@@ -26,43 +27,36 @@ const Home = () => {
     const options = ["Travel", "Fashion", "Fitness", "Sports", "Food", "Tech"];
 
     useEffect(() => {
-        setCurrentPage(0); // Reset page to 0 when category changes
-        loadBlogsData(0, pageLimit, 0); // Load blogs on category change
+        loadBlogsData(0, pageLimit, 0);
         fetchLatestBlog();
-    }, [category, selectedCategory]); // Reload data whenever category changes or selectedCategory changes
+    }, []); 
 
 
 
     const loadBlogsData = async (start, limit, increase, operation) => {
         try {
-            let url = `http://localhost:5000/blogs?_start=${start}&_end=${start + limit}`;
-
+            const userBlogsResponse = await axios.get(`http://localhost:5000/blogs`);
+            let userBlogs = userBlogsResponse.data.filter(blog => blog.createBy === user.id);
+            
             if (selectedCategory) {
-                url += `&category=${selectedCategory}`;
+                userBlogs = userBlogs.filter(blog => blog.category === selectedCategory);
             }
-
-            // Tải lại số lượng blog sau khi thay đổi category
-            const totalBlogResponse = await axios.get("http://localhost:5000/blogs");
-            setTotalBlog(totalBlogResponse.data.length); // Cập nhật lại totalBlog
-
-            const response = await axios.get(url);
-            if (response.status === 200) {
-                setData(response.data);
-                if (operation === 'delete') {
-                    setCurrentPage(0); // Nếu xóa blog, reset trang
-                } else {
-                    setCurrentPage((prev) => prev + increase); // Nếu không, tăng số trang
-                }
-            } else {
-                setToastMessage("Something went wrong");
-                setShowToast(true);
-            }
+            
+            setTotalBlog(userBlogs.length);
+            
+            const paginatedBlogs = userBlogs.slice(start, start + limit);
+            
+            // Replace previous data entirely instead of appending
+            setData(paginatedBlogs);
+            
+            setCurrentPage(prevPage => 
+                operation === 'delete' ? 0 : prevPage + increase
+            );
         } catch (error) {
             setToastMessage("Error loading data");
             setShowToast(true);
         }
     };
-
 
     const fetchLatestBlog = async () => {
         try {
@@ -107,30 +101,16 @@ const Home = () => {
     };
 
     const onInputChange = (e) => {
-        const value = e.target.value;
-        setSearchValue(value);
-    
-        // Nếu xóa hết các ký tự trong thanh tìm kiếm, gọi lại dữ liệu mặc định
-        if (!value.trim()) {
-            setData([]); // Xóa dữ liệu hiện tại
-            loadBlogsData(0, pageLimit, 0); // Tải lại dữ liệu ban đầu
-        }
+        setSearchValue(e.target.value);
     };
-    
-    const handleKeyPress = (e) => {
-        if (e.key === "Enter") { // Chỉ gọi tìm kiếm khi nhấn Enter
-            handleSearch(e);
-        }
-    };
-    
+
     const handleSearch = async (e) => {
         e.preventDefault();
         if (!searchValue.trim()) {
-            setData([]); // Xóa dữ liệu hiện tại
-            loadBlogsData(0, pageLimit, 0); // Tải lại dữ liệu ban đầu nếu tìm kiếm trống
+            setToastMessage("Please enter a search term");
+            setShowToast(true);
             return;
         }
-    
         try {
             const response = await axios.get(`http://localhost:5000/blogs?q=${searchValue}`);
             if (response.status === 200) {
@@ -151,7 +131,6 @@ const Home = () => {
             setShowToast(true);
         }
     };
-     
 
     const handleCategory = (category) => {
         setSelectedCategory(category); // Cập nhật category
@@ -171,12 +150,7 @@ const Home = () => {
 
     return (
         <>
-            <Search
-                searchValue={searchValue}
-                onInputChange={onInputChange}
-                handleSearch={handleSearch}
-                handleKeyPress={handleKeyPress}
-            />
+          
             <MDBRow>
                 {data.length === 0 && (
                     <MDBTypography className="text-center mb-0" tag="h2">
@@ -197,13 +171,7 @@ const Home = () => {
                         </MDBRow>
                     </MDBContainer>
                 </MDBCol>
-                <MDBCol size="3" style={{ marginTop: "20px" }}>
-                    <h4 className="text-start">Latest Posts</h4>
-                    {latestBlog.map((item, index) => (
-                        <LatestBlog key={index} {...item} />
-                    ))}
-                    <Category options={options} handleCategory={handleCategory} resetCategory={resetCategory} />
-                </MDBCol>
+               
             </MDBRow>
             <div className="mt-3">
                 <Pagination
@@ -223,6 +191,5 @@ const Home = () => {
             </ToastContainer>
         </>
     );
-};
-
-export default Home;
+}
+export default MyBlog;

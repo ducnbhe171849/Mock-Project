@@ -1,0 +1,76 @@
+.background {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/public/web-tai-hinh-dep-didongmy.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+.profile-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(145deg, #ffffff, #f4f4f4);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1), inset 0px -1px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+.profile-container h1 {
+    color: #444;
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.profile-container p {
+    font-size: 18px;
+    color: #666;
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.profile-container p strong {
+    color: #000;
+    font-weight: 600;
+}
+
+.profile-container button {
+    padding: 12px 25px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0px 5px 10px rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.profile-container button:hover {
+    background-color: #45a049;
+    box-shadow: 0px 8px 15px rgba(76, 175, 80, 0.5);
+    transform: scale(1.05);
+}
+
+.profile-container button:active {
+    background-color: #39843b;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(0.98);
+}
+
+.profile-container a {
+    text-decoration: none;
+}
+
+.profile-container a:hover {
+    text-decoration: underline;
+}

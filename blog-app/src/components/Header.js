@@ -8,7 +8,7 @@ import {
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import { useAuth } from './AuthContext';
-
+import "./Header.css"
 const Header = () => {
     const [show, setShow] = useState(false);
     const { user, logout } = useAuth(); // Lấy thông tin người dùng từ AuthContext
@@ -28,24 +28,49 @@ const Header = () => {
                 <MDBCollapse show={show} navbar>
                     <MDBNavbarNav className="me-auto">
                         <MDBNavbarItem>
-                            <Link to="/" className="nav-link" style={{ color: "#fff" }}>Home</Link>
+                            <Link to="/" className="nav-link" style={{ color: "#fff", textDecorationLine: 'none' }}>Home</Link>
                         </MDBNavbarItem>
                         {user && ( // Hiển thị "Add Blog" nếu người dùng đã đăng nhập
                             <MDBNavbarItem>
-                                <Link to="/addBlog" className="nav-link" style={{ color: "#fff" }}>
+                                <Link to="/addBlog" className="nav-link" style={{ color: "#fff", textDecorationLine: 'none' }}>
                                     Add Blog
                                 </Link>
                             </MDBNavbarItem>
                         )}
-                        <MDBNavbarItem>
+                        {/* <MDBNavbarItem>
                             <Link to="/about" className="nav-link" style={{ color: "#fff" }}>
                                 About
                             </Link>
-                        </MDBNavbarItem>
+                        </MDBNavbarItem> */}
                         {user ? (
                             <>
                                 <MDBNavbarItem style={{ margin: "auto" }}>
-                                    <span style={{ color: "#fff" }}>Hello, {user.firstname} {user.lastname}</span>
+                                    <Link
+                                        to={`/userprofile/${user.id}`} // Chuyển hướng đến trang thông tin người dùng
+                                        className="nav-link"
+                                        style={{ color: "#fff", cursor: "pointer" }}
+                                    >
+                                        Hello, {user.firstname} {user.lastname}
+                                    </Link>
+                                </MDBNavbarItem>
+
+                                <MDBNavbarItem style={{ margin: "auto" }}>
+                                    <Link
+                                        to={`/MyBlog/${user.id}`} // Chuyển hướng đến trang thông tin người dùng
+                                        className="nav-link"
+                                        style={{ color: "#fff", cursor: "pointer" }}
+                                    >
+                                        My Blog
+                                    </Link>
+                                </MDBNavbarItem>
+                                <MDBNavbarItem style={{ margin: "auto" }}>
+                                    <Link
+                                        to={`/my-favorites`} // Chuyển hướng đến trang thông tin người dùng
+                                        className="nav-link"
+                                        style={{ color: "#fff", cursor: "pointer" }}
+                                    >
+                                        My Favorites
+                                    </Link>
                                 </MDBNavbarItem>
                                 <MDBNavbarItem>
                                     <button onClick={logout} style={{ color: "#fff", background: "none", border: "none" }}>
@@ -56,10 +81,10 @@ const Header = () => {
                         ) : (
                             <>
                                 <MDBNavbarItem>
-                                    <Link to="/login" className="nav-link" style={{ color: "#fff" }}>Login</Link>
+                                    <Link to="/login" className="nav-link" style={{ color: "#fff", textDecorationLine: 'none' }}>Login</Link>
                                 </MDBNavbarItem>
                                 <MDBNavbarItem>
-                                    <Link to="/signin" className="nav-link" style={{ color: "#fff" }}>Sign Up</Link>
+                                    <Link to="/signin" className="nav-link" style={{ color: "#fff", textDecorationLine: 'none' }}>Sign Up</Link>
                                 </MDBNavbarItem>
                             </>
                         )}

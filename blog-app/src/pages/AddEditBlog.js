@@ -4,12 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
+import { useAuth } from "../components/AuthContext";
 const initialState = {
     title: "",
     description: "",
     category: "",
-    imageUrl: ""
+    imageUrl: "",
+    createBy:""
 };
 
 const options = ['Travel', 'Fashion', 'Fitness', 'Sports', 'Food', 'Tech'];
@@ -23,7 +24,7 @@ const AddEditBlog = () => {
 
     const navigate = useNavigate();
     const { id } = useParams();
-
+    const { user } = useAuth();
     const getDate = () => {
         let today = new Date();
         let dd = String(today.getDate()).padStart(2, '0');
@@ -77,7 +78,7 @@ const AddEditBlog = () => {
         }
         if (title && description && category && formValue.imageUrl) {
             const currentDate = getDate();
-            const updatedBlogData = { ...formValue, date: currentDate };
+            const updatedBlogData = { ...formValue, date: currentDate, createBy: user.id };
 
             try {
                 if (editMode) {
@@ -90,9 +91,11 @@ const AddEditBlog = () => {
                         showToast("danger", 'Something went wrong');
                     }
                 } else {
+                 
                     // Sử dụng POST cho chế độ thêm mới
                     const response = await axios.post('http://localhost:5000/blogs', updatedBlogData);
                     if (response.status === 201) {
+                       
                         showToast("success", 'Blog Created Successfully');
                         setFormValue(initialState);
                         navigate("/");
@@ -108,6 +111,7 @@ const AddEditBlog = () => {
         }
     };
 
+    
 
     const onInputChange = (e) => {
         const { name, value } = e.target;
