@@ -22,9 +22,9 @@ label {
 }
 
 input {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.7); /* Lighten the background for better contrast */
   border: 1px solid rgba(255, 255, 255, 0.4);
-  color: #6a5b5b;
+  color: #333; /* Darker text color for better readability */
   padding: 10px;
   border-radius: 4px;
   width: 100%;
@@ -32,7 +32,7 @@ input {
 }
 
 input::placeholder {
-  color: rgba(118, 95, 95, 0.6);
+  color: rgba(255, 255, 255, 0.6); /* Lighter placeholder text */
 }
 
 button {
@@ -66,4 +66,13 @@ a:hover {
 
 hr {
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-container {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds a shadow around the container */
+  width: 320px; /* Adjust width of the container */
+  margin: auto;
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import './UpdateProfile.css'
+import { useAuth } from "../components/AuthContext";// Import custom hook useAuth
+import './UpdateProfile.css';
 
 const UpdateProfile = () => {
     const { id } = useParams(); // Lấy id từ URL
@@ -8,12 +9,19 @@ const UpdateProfile = () => {
         fname: "",
         lname: "",
         email: "",
-        password:""
+        password: ""
     });
     const [message, setMessage] = useState("");
-    const navigate = useNavigate(); // Điều hướng sau khi cập nhật
+    const { isLoggedIn, logout } = useAuth(); // Lấy trạng thái đăng nhập và hàm logout
+    const navigate = useNavigate(); // Dùng để điều hướng
 
     useEffect(() => {
+        // Nếu người dùng chưa đăng nhập, điều hướng tới NotFound
+        if (!isLoggedIn) {
+            navigate("/notfound");
+            return;
+        }
+
         // Lấy thông tin người dùng từ API
         const fetchUser = async () => {
             try {
@@ -36,7 +44,7 @@ const UpdateProfile = () => {
         };
 
         fetchUser();
-    }, [id]);
+    }, [id, isLoggedIn, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -56,7 +64,7 @@ const UpdateProfile = () => {
 
             if (response.ok) {
                 setMessage("Profile updated successfully!");
-                setTimeout(() => navigate(`/userprofile/${id}`), 2000); // Điều hướng sau 2 giây
+                setTimeout(() => navigate(`/userprofile/${id}`), 100); // Điều hướng về trang UserProfile sau 100ms
             } else {
                 setMessage("Failed to update profile.");
             }
@@ -90,7 +98,7 @@ const UpdateProfile = () => {
                             onChange={handleChange}
                         />
                     </div>
-                    <div>
+                    <div style={{ display: 'none' }}>
                         <label>Email</label>
                         <input
                             type="email"
@@ -100,7 +108,7 @@ const UpdateProfile = () => {
                             disabled
                         />
                     </div>
-                    <div>
+                    <div style={{ display: 'none' }}>
                         <label>Password</label>
                         <input
                             type="password"

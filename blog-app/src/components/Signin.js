@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import axios from 'axios';
 import './signin.css';
-
 
 export default function Signin() {
     const [formData, setFormData] = useState({
@@ -11,48 +9,76 @@ export default function Signin() {
         lname: '',
         email: '',
         password: '',
-        confirmPassword: ''
-    })
-    const [errors, setErrors] = useState({})
-    const [valid, setValid] = useState(true)
+        confirmPassword: '' // Chỉ dùng để so sánh, không gửi đến API
+    });
+    const [errors, setErrors] = useState({});
+    const [valid, setValid] = useState(true);
     const navigate = useNavigate();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         let isvalid = true;
         let validationErrors = {};
-        if (formData.fname === "" || formData.fname === null) {
+
+        // Client-side validation
+        if (!formData.fname) {
             isvalid = false;
-            validationErrors.fname = "First Name is required"
+            validationErrors.fname = "First Name is required";
         }
-        if (formData.lname === "" || formData.lname === null) {
+        if (!formData.lname) {
             isvalid = false;
-            validationErrors.fname = "Last Name is required"
+            validationErrors.lname = "Last Name is required";
         }
-        if (formData.email === "" || formData.email === null) {
+        if (!formData.email) {
             isvalid = false;
-            validationErrors.fname = "Email is required"
+            validationErrors.email = "Email is required";
         }
-        if (formData.password === "" || formData.password === null) {
+        if (!formData.password) {
             isvalid = false;
-            validationErrors.fname = "Password is required"
+            validationErrors.password = "Password is required";
         }
-        if (formData.confirmPassword === "" || formData.confirmPassword === null) {
+        if (!formData.confirmPassword) {
             isvalid = false;
-            validationErrors.fname = "ConfirmPassword is required"
+            validationErrors.confirmPassword = "Confirm Password is required";
         }
-        setErrors(validationErrors)
-        setValid(isvalid)
-        if (Object.keys(validationErrors).length === 0) {
-            axios.post('http://localhost:5000/users', formData)
-                .then(result => {
-                    alert("Dang ky thanh cong")
-                    navigate('/login')
+        if (formData.password !== formData.confirmPassword) {
+            isvalid = false;
+            validationErrors.confirmPassword = "Passwords do not match";
+        }
+
+        setErrors(validationErrors);
+
+        if (isvalid) {
+            // Tạo object chỉ chứa dữ liệu cần gửi
+            const userData = {
+                fname: formData.fname,
+                lname: formData.lname,
+                email: formData.email,
+                password: formData.password,
+            };
+
+            // Check if email exists
+            axios
+                .get(`http://localhost:5000/users?email=${formData.email}`)
+                .then(response => {
+                    if (response.data.length > 0) {
+                        // Email already exists
+                        alert("Email đã được đăng ký. Vui lòng sử dụng email khác.");
+                    } else {
+                        // Proceed with registration
+                        axios
+                            .post('http://localhost:5000/users', userData) // Gửi dữ liệu không bao gồm confirmPassword
+                            .then(() => {
+                                alert("Đăng ký thành công!");
+                                navigate('/login');
+                            })
+                            .catch(err => console.log(err));
+                    }
                 })
-                .catch(err => console.log(err))
+                .catch(err => console.log("Error checking email:", err));
         }
+    };
 
-
-    }
     return (
         <div className="containe">
             <div className="row">
