@@ -1,0 +1,69 @@
+/* Header.css */
+
+.navbar {
+  background-color: #541b1b !important; /* Dark Red background */
+}
+
+.navbar .nav-link {
+  color: #fff !important; /* White text color */
+  text-decoration: none;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+  background-color: #d4af37; /* Gold color on hover */
+  color: #fff;
+  border-radius: 5px;
+}
+
+.navbar .nav-link:focus {
+  outline: none;
+}
+
+.navbar-toggler {
+  color: #fff;
+  background-color: #d4af37; /* Gold color for toggle */
+}
+
+.navbar-toggler:focus {
+  outline: none;
+}
+
+.navbar .nav-item {
+  padding: 0 10px;
+}
+
+.navbar .nav-link.active {
+  color: #d4af37; /* Gold color for active link */
+}
+
+.navbar .navbar-nav {
+  margin-left: auto;
+}
+
+.navbar .navbar-brand {
+  color: #fff;
+  font-weight: bold;
+}
+
+.navbar .navbar-nav .nav-item .nav-link {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.navbar .navbar-collapse {
+  justify-content: flex-end;
+}
+
+.navbar .button-logout {
+  color: #fff;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.navbar .button-logout:hover {
+  color: #d4af37; /* Gold color on hover */
+}
